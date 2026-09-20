@@ -2,14 +2,12 @@
 
 # ============================================================
 # Samu Recon - Installer requisiti multi-distro
-# Supporta: Kali/Debian/Ubuntu, Fedora, Arch Linux
+# Kali/Debian/Ubuntu, Fedora, Arch Linux
 # ============================================================
 
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-VENV_DIR="${ROOT_DIR}/.venv"
-PYTHON_REQUIREMENTS="${ROOT_DIR}/requirements.txt"
 
 print_ok() {
   printf '[OK] %s\n' "$1"
@@ -27,18 +25,8 @@ print_error() {
   printf '[ERROR] %s\n' "$1"
 }
 
-find_python() {
-  if command -v python3 >/dev/null 2>&1; then
-    command -v python3
-  elif command -v python >/dev/null 2>&1; then
-    command -v python
-  else
-    return 1
-  fi
-}
-
 install_apt() {
-  print_info "Rilevato sistema apt: Debian, Ubuntu o Kali"
+  print_info "Sistema rilevato: Kali / Debian / Ubuntu"
 
   sudo apt update
 
@@ -52,12 +40,12 @@ install_apt() {
     ca-certificates \
     python3 \
     python3-pip \
-    python3-venv \
-    jq
+    jq \
+    python3-phonenumbers
 }
 
 install_dnf() {
-  print_info "Rilevato sistema dnf: Fedora"
+  print_info "Sistema rilevato: Fedora"
 
   sudo dnf install -y \
     bash \
@@ -69,12 +57,12 @@ install_dnf() {
     ca-certificates \
     python3 \
     python3-pip \
-    python3-virtualenv \
-    jq
+    jq \
+    python3-phonenumbers
 }
 
 install_pacman() {
-  print_info "Rilevato sistema pacman: Arch Linux"
+  print_info "Sistema rilevato: Arch Linux"
 
   sudo pacman -Syu --needed \
     bash \
@@ -86,12 +74,9 @@ install_pacman() {
     ca-certificates \
     python \
     python-pip \
-    jq
+    jq \
+    python-phonenumbers
 }
-
-# ------------------------------------------------------------
-# Installa requisiti di sistema
-# ------------------------------------------------------------
 
 if command -v apt >/dev/null 2>&1; then
   install_apt
@@ -101,66 +86,12 @@ elif command -v pacman >/dev/null 2>&1; then
   install_pacman
 else
   print_error "Gestore pacchetti non supportato."
-  echo "Installa manualmente: bash curl grep sed gawk coreutils python3 pip jq"
+  echo "Installa manualmente: bash curl grep sed gawk coreutils python3 pip jq phonenumbers"
   exit 1
 fi
 
-print_ok "Requisiti di sistema installati"
-
-# ------------------------------------------------------------
-# Trova Python
-# ------------------------------------------------------------
-
-PYTHON_BIN="$(find_python)" || {
-  print_error "Python 3 non trovato dopo l'installazione"
-  exit 1
-}
-
-print_ok "Python trovato: ${PYTHON_BIN}"
-
-# ------------------------------------------------------------
-# Crea requirements.txt se mancante
-# ------------------------------------------------------------
-
-if [[ ! -f "$PYTHON_REQUIREMENTS" ]]; then
-  print_warn "requirements.txt non trovato: lo creo"
-
-  cat > "$PYTHON_REQUIREMENTS" <<'EOF'
-# Samu Recon - Dipendenze Python
-phonenumbers>=8.13.0
-EOF
-fi
-
-# ------------------------------------------------------------
-# Ambiente virtuale e librerie Python
-# ------------------------------------------------------------
-
-if [[ ! -d "$VENV_DIR" ]]; then
-  print_info "Creo ambiente virtuale Python: .venv"
-  "$PYTHON_BIN" -m venv "$VENV_DIR"
-else
-  print_ok "Ambiente virtuale già presente: .venv"
-fi
-
-# shellcheck disable=SC1091
-source "${VENV_DIR}/bin/activate"
-
-print_info "Aggiorno pip"
-python -m pip install --upgrade pip setuptools wheel
-
-print_info "Installo dipendenze Python"
-python -m pip install -r "$PYTHON_REQUIREMENTS"
-
-if python -c "import phonenumbers" >/dev/null 2>&1; then
-  print_ok "Libreria phonenumbers installata"
-else
-  print_error "phonenumbers non è installata"
-  exit 1
-fi
-
-# ------------------------------------------------------------
-# Cartelle e permessi
-# ------------------------------------------------------------
+echo
+print_info "Creo cartelle risultati..."
 
 mkdir -p \
   "${ROOT_DIR}/results" \
@@ -168,19 +99,15 @@ mkdir -p \
 
 if [[ -f "${ROOT_DIR}/recon.sh" ]]; then
   chmod +x "${ROOT_DIR}/recon.sh"
-  print_ok "recon.sh è eseguibile"
+  print_ok "recon.sh reso eseguibile"
 else
-  print_warn "recon.sh non trovato in ${ROOT_DIR}"
+  print_warn "recon.sh non trovato"
 fi
 
 chmod +x "${ROOT_DIR}/requirements.sh" 2>/dev/null || true
 
-# ------------------------------------------------------------
-# Verifica finale
-# ------------------------------------------------------------
-
 echo
-print_info "Verifica comandi"
+print_info "Verifico comandi richiesti..."
 
 for command in bash curl grep sed awk jq; do
   if command -v "$command" >/dev/null 2>&1; then
@@ -191,13 +118,22 @@ for command in bash curl grep sed awk jq; do
 done
 
 echo
+if python3 -c "import phonenumbers" >/dev/null 2>&1; then
+  print_ok "Python phonenumbers installato"
+elif python -c "import phonenumbers" >/dev/null 2>&1; then
+  print_ok "Python phonenumbers installato"
+else
+  print_error "Python phonenumbers non trovato"
+  exit 1
+fi
+
+echo
 echo "============================================================"
-echo " Samu Recon: setup completato"
+echo " Samu Recon: requisiti installati"
 echo "============================================================"
 echo
-echo "Per avviare:"
+echo "Avvio:"
 echo
 echo "  cd \"${ROOT_DIR}\""
-echo "  source .venv/bin/activate"
 echo "  ./recon.sh"
 echo
