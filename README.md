@@ -11,7 +11,7 @@ Collects public info about IP, domains, emails, Roblox, Discord, Instagram and m
 ## Installation
 
 ```bash
-git clone <URL-DEL-TUO-REPOSITORY>
+git clone <https://github.com/Scmuu/Sam-Recon>
 cd Sam-Recon
 
 chmod +x requirements.sh recon.sh
