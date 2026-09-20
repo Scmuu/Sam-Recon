@@ -24,14 +24,14 @@ OSINT framework
 
 ## Installation
 
+## Installation
+
 ```bash
-git clone <https://github.com/Scmuu/Sam-Recon>
+git clone https://github.com/Scmuu/Sam-Recon.git
 cd Sam-Recon
 
 chmod +x requirements.sh recon.sh
 ./requirements.sh
-
-source .venv/bin/activate
 ./recon.sh
 ```
 
