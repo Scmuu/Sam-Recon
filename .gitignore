@@ -1,0 +1,24 @@
+# Python virtual environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# Risultati e log locali
+results/
+logs/
+*.log
+samu-recon.log
+
+# Configurazioni e segreti locali
+config/config.sh
+config/*.env
+.env
+.env.*
+*.key
+*.pem
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
