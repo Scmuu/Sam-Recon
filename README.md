@@ -1,12 +1,27 @@
 # Samu Recon
 
 OSINT framework
-Collects public info about IP, domains, emails, Roblox, Discord, Instagram and more.
+
+## Features
+
+- IP Lookup: geolocalizzazione stimata, ISP, ASN, reverse DNS, proxy/VPN/hosting flags
+- Domain Lookup
+- Email Lookup
+- Email OSINT: dati pubblici e metadata di esposizione
+- Username OSINT: GitHub, GitLab, Reddit e username discovery su siti pubblici
+- Phone OSINT: validazione, formattazione, Paese, tipo linea, area da prefisso, fuso orario e carrier originario
+- Instagram Lookup
+- Roblox Public OSINT: profilo, avatar, conteggi, gruppi, badge e giochi pubblici
+- Discord Public Lookup: Snowflake date, account age, metadata pubblici, avatar, banner e public flags
+- Setup multipiattaforma: Kali, Debian, Ubuntu, Arch Linux e Fedora
 
 > For educational and authorized use only.
 
----
-
+- Kali Linux
+- Debian
+- Ubuntu
+- Arch Linux
+- Fedora
 
 ## Installation
 
@@ -53,10 +68,7 @@ The tool works without this file too.
 
 ---
 
-## APIs used
-
-Mostly public and free
----
+## APIs used public and free
 
 ## Legal & ethical notice
 
