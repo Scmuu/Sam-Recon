@@ -4,17 +4,16 @@ OSINT framework
 
 ## Features
 
-- IP Lookup: geolocalizzazione stimata, ISP, ASN, reverse DNS, proxy/VPN/hosting flags
+- IP Lookup: estimated geolocation, ISP, ASN, reverse DNS, and proxy/VPN/hosting flags
 - Domain Lookup
 - Email Lookup
-- Email OSINT: dati pubblici e metadata di esposizione
-- Username OSINT: GitHub, GitLab, Reddit e username discovery su siti pubblici
-- Phone OSINT: validazione, formattazione, Paese, tipo linea, area da prefisso, fuso orario e carrier originario
+- Email OSINT: public information and exposure metadata
+- Username OSINT: GitHub, GitLab, Reddit, and username discovery across public websites
+- Phone OSINT: validation, formatting, country, line type, prefix-based area, time zone, and original carrier
 - Instagram Lookup
-- Roblox Public OSINT: profilo, avatar, conteggi, gruppi, badge e giochi pubblici
-- Discord Public Lookup: Snowflake date, account age, metadata pubblici, avatar, banner e public flags
-- Setup multipiattaforma: Kali, Debian, Ubuntu, Arch Linux e Fedora
-
+- Roblox Public OSINT: profile, avatar, counters, groups, badges, and public games
+- Discord Public Lookup: Snowflake creation date, account age, public metadata, avatar, banner, and public flags
+- Cross-platform setup: Kali Linux, Debian, Ubuntu, Arch Linux, and Fedora
 > For educational and authorized use only.
 
 - Kali Linux
